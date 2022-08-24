@@ -23,6 +23,20 @@ namespace MoviesConsoleApp
             Console.WriteLine();
             Console.WriteLine("2. Mostrar o nome e idade de todos atores que desempenharam um determinado personagem(por exemplo, quais os atores que já atuaram como '007' ?");
 
+            var query = _db.Characters
+                .Include(a => a.Actor)
+                .Where(c => c.Character == "James Bond")
+                .Select(character => new
+                {
+                    character.Actor.Name,
+                    character.Actor.DateBirth
+                });
+
+            foreach (var actor in query)
+            {
+                Console.WriteLine("Actor Name: {0}, Actor Age: {1} ",
+                    actor.Name, DateTime.Now.Year - actor.DateBirth.Year);
+            }
 
             Console.WriteLine();
             Console.WriteLine("3. Informar qual o ator desempenhou mais vezes um determinado personagem(por exemplo: qual o ator que realizou mais filmes como o 'agente 007'");
