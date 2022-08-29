@@ -36,7 +36,7 @@ namespace MoviesConsoleApp
             Console.WriteLine();
             Console.WriteLine("2. Mostrar o nome e idade de todos atores que desempenharam um determinado personagem(por exemplo, quais os atores que já atuaram como '007' ?");
 
-            var query = _db.Characters
+            var query2 = _db.Characters
                 .Include(a => a.Actor)
                 .Where(c => c.Character == "James Bond")
                 .Select(character => new
@@ -44,8 +44,8 @@ namespace MoviesConsoleApp
                     character.Actor.Name,
                     character.Actor.DateBirth
                 });
-
-            foreach (var actor in query)
+            
+            foreach (var actor in query2)
             {
                 Console.WriteLine("Actor Name: {0}, Actor Age: {1} ",
                     actor.Name, DateTime.Now.Year - actor.DateBirth.Year);
@@ -57,17 +57,45 @@ namespace MoviesConsoleApp
             Console.WriteLine();
             Console.WriteLine("4. Mostrar o nome e a data de nascimento do ator mais idoso");
 
+            var oldest = _db.Actors.OrderByDescending(x => x.DateBirth).First();
+
+            Console.WriteLine("{0}, datebirth: {1}", oldest.Name, oldest.DateBirth);
+
             Console.WriteLine();
             Console.WriteLine("5. Mostrar o nome e a data de nascimento do ator mais novo a atuar em um determinado gênero");
 
             Console.WriteLine();
             Console.WriteLine("6. Mostrar o valor médio das avaliações dos filmes de um determinado diretor");
 
+            var ratingAverage = _db.Movies.Where(m => m.Director == "Steven Spielberg")
+                                   .GroupBy(g => g.Director, r => r.Rating)
+                                   .Select(g => new
+                                   {
+                                       Director = g.Key,
+                                       Rating = g.Average()
+                                   }).First();
+
+
+            Console.WriteLine("Director: {0}, Movies average: {1}", ratingAverage.Director, ratingAverage.Rating);
+
             Console.WriteLine();
             Console.WriteLine("7. Qual o elenco do filme melhor avaliado ?");
 
             Console.WriteLine();
             Console.WriteLine("8. Qual o elenco do filme com o maior faturamento?");
+            var query8 = _db.Movies.Include(c => c.Characters)
+                                   .GroupBy(c => c.Characters, g => g.Gross)
+                                   .Select(mId => new
+                                   {
+                                       Characters = mId.Key,
+                                       Gross = mId.Max()
+                                   });
+            foreach (var a in query8)
+            {
+                Console.WriteLine("Actor Name: {0}, Actor Age: {1} ",
+                    a.Characters.ToString(), a.Gross);
+            }
+
 
             Console.WriteLine();
             Console.WriteLine("9. Gerar um relatório de aniversariantes, agrupando os atores pelo mês de aniverário.");
