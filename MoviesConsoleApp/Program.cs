@@ -67,7 +67,7 @@ namespace MoviesConsoleApp
             //             // .OrderByDescending(grupo => grupo.Count())
             //             .Select(grupo => new { Chave = grupo.Key, Numero = grupo.Count() }) ;
 
-            Console.WriteLine("\tAtor que mais fez o James Bond: {0}".);
+            Console.WriteLine("\tAtor que mais fez o James Bond: {0}",query3);
             Console.WriteLine();
             Console.WriteLine("4. Mostrar o nome e a data de nascimento do ator mais idoso");
 
