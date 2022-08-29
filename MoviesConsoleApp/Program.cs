@@ -53,7 +53,21 @@ namespace MoviesConsoleApp
 
             Console.WriteLine();
             Console.WriteLine("3. Informar qual o ator desempenhou mais vezes um determinado personagem(por exemplo: qual o ator que realizou mais filmes como o 'agente 007'");
+            var query3 = from p in _db.Characters
+                                         .Include(per => per.Actor)
+                         where p.Character == "James Bond"
+                         group p by p.Actor.Name into grupo
+                         orderby grupo.Count() descending
+                         select new { Chave = grupo.Key, Numero = grupo.Count() };
 
+            //var query3b = from p in _db.Characters
+            //                             .Include(per => per.Actor)
+            //             .Where(p => p.Character == "James Bond")
+            //             .GroupBy(p => p.Actor.Name)
+            //             // .OrderByDescending(grupo => grupo.Count())
+            //             .Select(grupo => new { Chave = grupo.Key, Numero = grupo.Count() }) ;
+
+            Console.WriteLine("\tAtor que mais fez o James Bond: {0}",query3);
             Console.WriteLine();
             Console.WriteLine("4. Mostrar o nome e a data de nascimento do ator mais idoso");
 
@@ -63,7 +77,14 @@ namespace MoviesConsoleApp
 
             Console.WriteLine();
             Console.WriteLine("5. Mostrar o nome e a data de nascimento do ator mais novo a atuar em um determinado gênero");
-
+            var query5 = from p in _db.Characters
+                                         .Include(per => per.Actor)
+                                         .Include(per => per.Movie)
+                                            .ThenInclude(m => m.Genre)
+                         where p.Movie.GenreID == 1
+                         group p by p.Actor.Name into grupo
+                         orderby grupo.Count() descending
+                         select new { Chave = grupo.Key, Numero = grupo.Count() };
             Console.WriteLine();
             Console.WriteLine("6. Mostrar o valor médio das avaliações dos filmes de um determinado diretor");
 
