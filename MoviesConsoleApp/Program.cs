@@ -73,7 +73,14 @@ namespace MoviesConsoleApp
 
             Console.WriteLine();
             Console.WriteLine("5. Mostrar o nome e a data de nascimento do ator mais novo a atuar em um determinado gênero");
-
+            var query5 = from p in _db.Characters
+                                         .Include(per => per.Actor)
+                                         .Include(per => per.Movie)
+                                            .ThenInclude(m => m.Genre)
+                         where p.Movie.GenreID == 1
+                         group p by p.Actor.Name into grupo
+                         orderby grupo.Count() descending
+                         select new { Chave = grupo.Key, Numero = grupo.Count() };
             Console.WriteLine();
             Console.WriteLine("6. Mostrar o valor médio das avaliações dos filmes de um determinado diretor");
 
