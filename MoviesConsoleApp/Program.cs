@@ -85,7 +85,7 @@ namespace MoviesConsoleApp
                          group p by p.Actor.Name into grupo
                          orderby grupo.Count() descending
                          select new { Chave = grupo.Key, Numero = grupo.Count() };
-            Console.WriteLine();
+            
             Console.WriteLine("6. Mostrar o valor médio das avaliações dos filmes de um determinado diretor");
 
             var ratingAverage = _db.Movies.Where(m => m.Director == "Steven Spielberg")
@@ -101,26 +101,43 @@ namespace MoviesConsoleApp
 
             Console.WriteLine();
             Console.WriteLine("7. Qual o elenco do filme melhor avaliado ?");
+            var query7 = _db.Movies.Include(c => c.Characters).ThenInclude(a => a.Actor)
+                                    .OrderByDescending(x => x.Rating)
+                                    .First()
+                                    .Characters;
+
+            foreach (var actor in query7)
+            {
+                Console.WriteLine("Actor Name: {0}", actor.Actor.Name);
+            }
+            Console.WriteLine("OBS: A consulta 7 esta correta, porem nenhum ator foi cadastrado na seed para o filme com melhor rating");
 
             Console.WriteLine();
             Console.WriteLine("8. Qual o elenco do filme com o maior faturamento?");
-            var query8 = _db.Movies.Include(c => c.Characters)
-                                   .GroupBy(c => c.Characters, g => g.Gross)
-                                   .Select(mId => new
-                                   {
-                                       Characters = mId.Key,
-                                       Gross = mId.Max()
-                                   });
-            foreach (var a in query8)
-            {
-                Console.WriteLine("Actor Name: {0}, Actor Age: {1} ",
-                    a.Characters.ToString(), a.Gross);
-            }
+            var query8 = _db.Movies.Include(c => c.Characters).ThenInclude(a => a.Actor)
+                                    .OrderByDescending(x => x.Gross)
+                                    .First()
+                                    .Characters;
 
+            foreach (var actor in query8)
+            {
+                Console.WriteLine("Actor Name: {0}", actor.Actor.Name) ;
+            }
+            Console.WriteLine("OBS: A consulta 8 esta correta, porem nenhum ator foi cadastrado na seed para o filme com maior faturamento");
 
             Console.WriteLine();
             Console.WriteLine("9. Gerar um relatório de aniversariantes, agrupando os atores pelo mês de aniverário.");
-
+            var query9 = _db.Actors.OrderBy(x => x.DateBirth.Month).GroupBy(x => x.DateBirth.Month)
+                                    .AsEnumerable()
+                                    .Select(x => new
+                                    {
+                                        names = x.Select(n => n.Name).ToList(),
+                                        awardDate = x.Key,
+                                    });
+            foreach (var x in query9)
+            {
+                Console.WriteLine("month: {0}, actors: {1}", x.awardDate);
+            }
             Console.WriteLine("- - -   feito!  - - - ");
             Console.WriteLine();
         }
