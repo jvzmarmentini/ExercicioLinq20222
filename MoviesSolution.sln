@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistencia", "Persistencia\Persistencia.csproj", "{F5EB59B7-0F63-4581-9AD5-39FBDA853FE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoviesConsoleApp", "MoviesConsoleApp\MoviesConsoleApp.csproj", "{1FC2A309-5058-40CC-8D97-B48B2DDECBAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoviesConsoleApp", "MoviesConsoleApp\MoviesConsoleApp.csproj", "{1FC2A309-5058-40CC-8D97-B48B2DDECBAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcMovie", "MvcMovie\MvcMovie.csproj", "{9C2B3BC1-E9E8-44E3-8A17-4A9BE5386869}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{1FC2A309-5058-40CC-8D97-B48B2DDECBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FC2A309-5058-40CC-8D97-B48B2DDECBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FC2A309-5058-40CC-8D97-B48B2DDECBAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C2B3BC1-E9E8-44E3-8A17-4A9BE5386869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C2B3BC1-E9E8-44E3-8A17-4A9BE5386869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C2B3BC1-E9E8-44E3-8A17-4A9BE5386869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C2B3BC1-E9E8-44E3-8A17-4A9BE5386869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
